@@ -1,35 +1,48 @@
-SRCS 	= 	ft_printf.c\
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dluba <dluba@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/12/29 19:27:45 by dluba             #+#    #+#              #
+#    Updated: 2021/12/29 19:27:45 by dluba            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-BONUSES	=	ft_printf.c\
+SRCS 	= 	ft_printf.c\
+		funcs_1.c\
+		funcs_2.c\
+		funcs_3.c\
 
 OBJS	= ${SRCS:.c=.o}
 
-OBJS_BONUSES = ${BONUSES:.c=.o}
+HEADER	= ft_printf.h
 
 NAME	= libftprintf.a
 
 CC	= gcc
 
-LIBCC	= ar rc
+LIBCC	= ar rcs
 
 CFLAGS	= -Wall -Wextra -Werror
 
 .c.o:
 	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	${LIBCC} $(NAME) $(OBJS)
+${OBJS}: ${HEADER} Makefile
 
-bonus: $(NAME) $(OBJS_BONUSES)
-	$(LIBCC) $(NAME) $(OBJS) $(OBJS_BONUSES)
+${NAME}: $(OBJS) 
+	${LIBCC} ${NAME} $?
 
 clean:
-	@rm -rf ${OBJS} ${OBJS_BONUSES}
+	@rm -rf ${OBJS}
 
 fclean:	clean
 	@rm -rf ${NAME}
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
